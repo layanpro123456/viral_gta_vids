@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+
+# Environment Variables
+.env
+.env.local
+
+# Database & SQLite
+*.db
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# Archival Outputs & Download Cache
+archive/
+*.part
+*.ytdl
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
