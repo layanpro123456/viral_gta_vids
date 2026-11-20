@@ -201,31 +201,56 @@ page_ids = ["GTA6News", "RockstarGames"]
 
 ---
 
-## 💻 CLI Usage
+## 💻 Usage: Desktop GUI & CLI
+
+### 🖥️ Modern Desktop GUI App
+ViceClip features a modern dark-mode desktop GUI built with CustomTkinter, featuring neon Vice City aesthetics, real-time metrics, live progress tracking, and direct URL ingestion:
+
+```bash
+# Launch via CLI command
+viceclip gui
+
+# Or run via script entrypoint
+python gui_main.py
+```
+
+#### Standalone Executable (.EXE)
+You can compile ViceClip into a standalone Windows `.exe` that runs in any environment without needing Python installed:
+```bash
+python build_desktop.py
+# -> dist/ViceClipArchiver.exe
+```
+
+---
+
+### ⌨️ CLI Commands
 
 ```bash
 # View general help and available commands
 viceclip --help
 
-# 1. Discover and rank trending GTA 6 clips
+# 1. Launch modern desktop application
+viceclip gui
+
+# 2. Discover and rank trending GTA 6 clips
 viceclip discover --max-results 50
 
-# 2. Ingest and queue a specific video URL (Facebook, YouTube, Reddit)
+# 3. Ingest and queue a specific video URL (Facebook, YouTube, Reddit)
 viceclip ingest "https://www.facebook.com/reel/123456789"
 
-# 3. Download a video immediately by direct URL
+# 4. Download a video immediately by direct URL
 viceclip download --url "https://fb.watch/sampleReel/"
 
-# 4. Process the archival queue
+# 5. Process the archival queue
 viceclip download --limit 10
 
-# 5. Execute full sync (discover followed by download)
+# 6. Execute full sync (discover followed by download)
 viceclip sync
 
-# 6. Display catalog statistics table
+# 7. Display catalog statistics table
 viceclip stats
 
-# 7. Print active configuration parameters
+# 8. Print active configuration parameters
 viceclip config
 ```
 

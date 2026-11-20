@@ -254,5 +254,19 @@ def config_cmd(
     print_config_summary(cfg)
 
 
+@app.command("gui")
+def gui_cmd(
+    config_path: str = typer.Option("config.toml", "--config", "-c", help="Path to config.toml configuration file."),
+) -> None:
+    """Launch the modern ViceClip Archiver desktop GUI application."""
+    print_banner()
+    console.print("[bold cyan]Launching ViceClip Desktop Application...[/bold cyan]")
+    try:
+        from viceclip.gui.app import launch_gui
+        launch_gui(config_path)
+    except Exception as exc:
+        console.print(f"[red]Error launching GUI: {exc}[/red]")
+
+
 if __name__ == "__main__":
     app()
