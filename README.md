@@ -10,18 +10,45 @@
 
 [![Python: 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Architecture: Hexagonal](https://img.shields.io/badge/Architecture-Hexagonal%20Ports%20%26%20Adapters-8A2BE2?style=for-the-badge)](https://alistair.cockburn.us/hexagonal-architecture/)
-[![Tests: 30 Passed](https://img.shields.io/badge/Tests-30%20Passed-10B981?style=for-the-badge&logo=pytest&logoColor=white)](#-testing)
+[![Tests: 32 Passed](https://img.shields.io/badge/Tests-32%20Passed-10B981?style=for-the-badge&logo=pytest&logoColor=white)](#-testing)
 [![Coverage: 80%](https://img.shields.io/badge/Coverage-80%25-brightgreen?style=for-the-badge)](#-testing)
 [![Platforms: YouTube | Reddit | Facebook](https://img.shields.io/badge/Platforms-YouTube%20%7C%20Reddit%20%7C%20Facebook-FF2A85?style=for-the-badge)](#-multi-platform-coverage)
 [![License: MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
 
 <br/>
 
-[⚡ Quick Start](#-quick-start) • [✨ Key Features](#-key-features) • [📐 Virality Formula](#-virality-scoring-formula) • [🏛️ Architecture](#-architecture--design-principles) • [💻 CLI Commands](#-cli-usage) • [🧪 Testing](#-testing)
+<p align="center">
+  <a href="https://github.com/layanpro123456/viral_gta_vids/releases/latest/download/ViceClipArchiver.exe">
+    <img src="https://img.shields.io/badge/⬇️_DOWNLOAD_PORTABLE_.EXE-WINDOWS_x64-FF2A85?style=for-the-badge&logo=windows&logoColor=white" height="42" alt="Download Windows Executable" />
+  </a>
+  <a href="https://github.com/layanpro123456/viral_gta_vids/releases/latest">
+    <img src="https://img.shields.io/badge/📦_VIEW_ALL_RELEASES-LATEST-00F0FF?style=for-the-badge&logo=github&logoColor=black" height="42" alt="View GitHub Releases" />
+  </a>
+</p>
+
+<br/>
+
+[📥 Instant Download](#-download-standalone-app-portable-exe) • [✨ Key Features](#-key-features) • [🖥️ Desktop App](#-modern-desktop-gui-app) • [📐 Virality Formula](#-virality-scoring-formula) • [🏛️ Architecture](#-architecture--design-principles) • [💻 CLI Commands](#-cli-commands) • [🧪 Testing](#-testing)
 
 <br/>
 
 </div>
+
+---
+
+## 📥 Download Standalone App (Portable .EXE)
+
+No Python, command line, or developer setup required. Simply download the pre-compiled binary and run it directly on Windows 10 or 11:
+
+<p align="center">
+  <a href="https://github.com/layanpro123456/viral_gta_vids/releases/latest/download/ViceClipArchiver.exe">
+    <img src="https://img.shields.io/badge/⬇️_Direct_Download-ViceClipArchiver.exe_(~38MB)-10B981?style=for-the-badge&logo=windows&logoColor=white" height="48" alt="Download Executable" />
+  </a>
+</p>
+
+- **Portable:** Single executable with no external runtimes required.
+- **Includes:** CustomTkinter dark-mode UI, yt-dlp stream extractors, SQLite engine, and deterministic folder storage.
+- **Verification:** SHA-256 integrity checksum available in every [GitHub Release](https://github.com/layanpro123456/viral_gta_vids/releases/latest).
 
 ---
 

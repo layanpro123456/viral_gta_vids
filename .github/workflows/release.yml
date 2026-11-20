@@ -1,0 +1,65 @@
+name: Build & Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Windows Desktop App & Publish Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Run Test Suite
+        run: |
+          pytest -v
+
+      - name: Build Standalone Windows Executable
+        run: |
+          python build_desktop.py
+
+      - name: Compute SHA-256 Checksum
+        shell: pwsh
+        run: |
+          $hash = (Get-FileHash -Path dist/ViceClipArchiver.exe -Algorithm SHA256).Hash
+          Set-Content -Path dist/ViceClipArchiver.exe.sha256 -Value $hash
+          Write-Host "ViceClipArchiver.exe SHA-256: $hash"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/ViceClipArchiver.exe
+            dist/ViceClipArchiver.exe.sha256
+          name: "ViceClip Archiver ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            ## ViceClip Archiver Desktop & Engine Release 🌴🚗
+
+            ### Download Standalone Application
+            - **[ViceClipArchiver.exe](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/ViceClipArchiver.exe)** (Portable Windows Executable)
+            - **ViceClipArchiver.exe.sha256** (Integrity Checksum)
+
+            *No Python installation required. Simply download and double-click to launch the dark-mode synthwave desktop app.*
