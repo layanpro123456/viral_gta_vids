@@ -10,6 +10,14 @@ from pathlib import Path
 import subprocess
 import sys
 
+# Ensure UTF-8 output on all platforms
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 
 def run_cmd(cmd: list[str], desc: str) -> None:
     print(f"\n[RUNNING] {desc}...")
@@ -33,7 +41,7 @@ def main() -> None:
     os.chdir(root)
 
     print("==================================================")
-    print("  ViceClip Archiver — Automated Release Pipeline   ")
+    print("  ViceClip Archiver - Automated Release Pipeline   ")
     print("==================================================")
 
     # 1. Run Tests
@@ -51,11 +59,11 @@ def main() -> None:
     hash_val = compute_sha256(exe_path)
     hash_file = root / "dist" / "ViceClipArchiver.exe.sha256"
     hash_file.write_text(hash_val + "\n", encoding="utf-8")
-    print(f"\n✔ SHA-256 Checksum: {hash_val}")
-    print(f"✔ Checksum written to {hash_file}")
+    print(f"\n[OK] SHA-256 Checksum: {hash_val}")
+    print(f"[OK] Checksum written to {hash_file}")
 
     print("\n==================================================")
-    print("  AUTOMATED BUILD COMPLETE! 🎉                    ")
+    print("  AUTOMATED BUILD COMPLETE! [OK]                  ")
     print(f"  Binary:   {exe_path} ({exe_path.stat().st_size / (1024*1024):.1f} MB)")
     print(f"  Checksum: {hash_file}")
     print("==================================================")

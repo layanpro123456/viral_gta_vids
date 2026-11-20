@@ -8,6 +8,14 @@ import os
 from pathlib import Path
 import sys
 
+# Ensure UTF-8 output on all platforms (prevents Windows CP1252 charmap encoding errors)
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 import PyInstaller.__main__
 
 
@@ -49,7 +57,7 @@ def build_executable() -> None:
         exe_path = root_dir / "dist" / f"ViceClipArchiver{exe_suffix}"
         if exe_path.exists():
             print("\n==================================================")
-            print("  BUILD SUCCESSFUL! 🎉")
+            print("  BUILD SUCCESSFUL! [OK]")
             print(f"  Executable location: {exe_path}")
             print(f"  Size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
             print("==================================================")
