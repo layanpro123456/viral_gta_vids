@@ -1,34 +1,32 @@
-"""Desktop Executable Build Script using PyInstaller.
 
-Compiles ViceClip Archiver into a standalone Windows .exe with all dependencies
-bundled (CustomTkinter themes, yt-dlp extractors, SQLite, Pydantic).
-"""
+"""Build ViceClip Archiver Windows executable."""
 
 import os
-from pathlib import Path
 import sys
+from pathlib import Path
 
-# Ensure UTF-8 output on all platforms (prevents Windows CP1252 charmap encoding errors)
+# Force UTF-8 console output on Windows.
 if sys.platform == "win32":
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+    os.environ["PYTHONUTF8"] = "1"
+
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-    except Exception:
+    except (AttributeError, OSError):
         pass
 
 import PyInstaller.__main__
 
 
-def build_executable() -> None:
-    """Build standalone desktop executable."""
-    root_dir = Path(__file__).parent.resolve()
+def build_executable():
+    root_dir = Path(__file__).resolve().parent
     entrypoint = root_dir / "gui_main.py"
 
-    print("==================================================")
-    print("  Building ViceClip Archiver Desktop Executable   ")
-    print("==================================================")
+    print("=" * 50)
+    print("Building ViceClip Archiver Desktop Executable")
+    print("=" * 50)
 
-    # Cross-platform data separator (; on Windows, : on Linux/macOS)
     sep = os.pathsep
 
     args = [
@@ -49,24 +47,29 @@ def build_executable() -> None:
         f"--specpath={root_dir}",
     ]
 
-    print(f"Executing PyInstaller with args:\n{' '.join(args)}\n")
+    print("Running PyInstaller...")
 
     try:
         PyInstaller.__main__.run(args)
-        exe_suffix = ".exe" if sys.platform == "win32" else ""
-        exe_path = root_dir / "dist" / f"ViceClipArchiver{exe_suffix}"
-        if exe_path.exists():
-            print("\n==================================================")
-            print("  BUILD SUCCESSFUL! [OK]")
-            print(f"  Executable location: {exe_path}")
-            print(f"  Size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
-            print("==================================================")
-        else:
-            print(f"\n[ERROR] Build finished but expected binary not found at {exe_path}")
-            sys.exit(1)
+
+        exe_path = root_dir / "dist" / "ViceClipArchiver.exe"
+
+        if not exe_path.exists():
+            raise FileNotFoundError(
+                f"Executable not found: {exe_path}"
+            )
+
+        size_mb = exe_path.stat().st_size / (1024 * 1024)
+
+        print("\n" + "=" * 50)
+        print("BUILD SUCCESSFUL!")
+        print(f"Executable: {exe_path}")
+        print(f"Size: {size_mb:.1f} MB")
+        print("=" * 50)
+
     except Exception as exc:
-        print(f"\n[FATAL] PyInstaller execution failed: {exc}")
-        sys.exit(1)
+        print(f"\nBUILD FAILED: {exc}")
+        raise
 
 
 if __name__ == "__main__":
