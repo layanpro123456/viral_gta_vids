@@ -11,6 +11,9 @@ on:
         required: true
         default: 'v0.1.0'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
 
@@ -29,16 +32,20 @@ jobs:
           python-version: "3.11"
           cache: "pip"
 
-      - name: Install Dependencies
+      - name: Install Build Tools & Dependencies
+        shell: pwsh
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .[dev]
+          python -m pip install --upgrade pip setuptools wheel
+          pip install pyinstaller customtkinter pillow rich yt-dlp httpx pydantic pydantic-settings pytest pytest-cov respx typer
+          pip install -e .
 
       - name: Run Test Suite
+        shell: pwsh
         run: |
           pytest -v
 
       - name: Build Standalone Windows Executable
+        shell: pwsh
         run: |
           python build_desktop.py
 

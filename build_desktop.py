@@ -6,52 +6,59 @@ bundled (CustomTkinter themes, yt-dlp extractors, SQLite, Pydantic).
 
 import os
 from pathlib import Path
-import subprocess
 import sys
+
+import PyInstaller.__main__
 
 
 def build_executable() -> None:
     """Build standalone desktop executable."""
     root_dir = Path(__file__).parent.resolve()
     entrypoint = root_dir / "gui_main.py"
-    config_file = root_dir / "config.toml"
-    env_example = root_dir / "config.toml"
 
     print("==================================================")
     print("  Building ViceClip Archiver Desktop Executable   ")
     print("==================================================")
 
-    # PyInstaller arguments
-    cmd = [
-        sys.executable,
-        "-m",
-        "PyInstaller",
+    # Cross-platform data separator (; on Windows, : on Linux/macOS)
+    sep = os.pathsep
+
+    args = [
+        str(entrypoint),
         "--noconfirm",
         "--clean",
         "--name=ViceClipArchiver",
         "--onefile",
-        "--windowed",  # GUI mode without console window
+        "--windowed",
         "--collect-all=customtkinter",
         "--collect-all=yt_dlp",
         "--collect-all=rich",
-        "--add-data=config.toml;.",
-        "--add-data=.env.example;.",
-        "--add-data=assets;assets",
-        str(entrypoint),
+        f"--add-data=config.toml{sep}.",
+        f"--add-data=.env.example{sep}.",
+        f"--add-data=assets{sep}assets",
+        f"--distpath={root_dir / 'dist'}",
+        f"--workpath={root_dir / 'build'}",
+        f"--specpath={root_dir}",
     ]
 
-    print(f"Running command:\n{' '.join(cmd)}\n")
-    result = subprocess.run(cmd, cwd=str(root_dir))
+    print(f"Executing PyInstaller with args:\n{' '.join(args)}\n")
 
-    if result.returncode == 0:
-        exe_path = root_dir / "dist" / "ViceClipArchiver.exe"
-        print("\n==================================================")
-        print("  BUILD SUCCESSFUL! 🎉")
-        print(f"  Executable location: {exe_path}")
-        print("==================================================")
-    else:
-        print(f"\nBuild failed with exit code: {result.returncode}")
-        sys.exit(result.returncode)
+    try:
+        PyInstaller.__main__.run(args)
+        exe_suffix = ".exe" if sys.platform == "win32" else ""
+        exe_path = root_dir / "dist" / f"ViceClipArchiver{exe_suffix}"
+        if exe_path.exists():
+            print("\n==================================================")
+            print("  BUILD SUCCESSFUL! 🎉")
+            print(f"  Executable location: {exe_path}")
+            print(f"  Size: {exe_path.stat().st_size / (1024*1024):.1f} MB")
+            print("==================================================")
+        else:
+            print(f"\n[ERROR] Build finished but expected binary not found at {exe_path}")
+            sys.exit(1)
+    except Exception as exc:
+        print(f"\n[FATAL] PyInstaller execution failed: {exc}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
